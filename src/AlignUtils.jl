@@ -3,7 +3,7 @@ module AlignUtils
 using DataFrames
 using Gadfly
 using JLD
-using MAT
+Pkg.installed("MAT")!=nothing && using MAT
 using Levenshtein
 using Base.Collections
 using SynapseClient

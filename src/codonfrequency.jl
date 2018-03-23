@@ -7,7 +7,11 @@ function savedictJLD(fileprefix, dict)
 	save("$fileprefix.jld", dict, compress=true)
 end
 
+
+
 function savedictMAT(fileprefix, dict)
+	Pkg.installed("MAT")==nothing && error("Module MAT not installed. Choose another output format (e.g. :JLD) or run `Pkg.add(\"MAT\")` to install the MAT package (and then restart Julia).")
+
 	# TODO: how can we ensure Matlab compatibility if new entries are added to the dict???
 
 	# segmentInfo fix - convert tuples to arrays
