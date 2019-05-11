@@ -9,29 +9,6 @@ end
 
 
 
-function savedictMAT(fileprefix, dict)
-	Pkg.installed("MAT")==nothing && error("Module MAT not installed. Choose another output format (e.g. :JLD) or run `Pkg.add(\"MAT\")` to install the MAT package (and then restart Julia).")
-
-	# TODO: how can we ensure Matlab compatibility if new entries are added to the dict???
-
-	# segmentInfo fix - convert tuples to arrays
-	if haskey(dict, "segmentInfo")
-		dict = copy(dict) # avoid changing the original dict!
-		si = dict["segmentInfo"]
-		si = map(x->[x...],si)
-		dict["segmentInfo"] = si
-	end
-
-	matwrite("$fileprefix.mat", dict)
-end
-
-# TODO: maybe CSV output should be considered exporting rather than saving?
-function savedictCSV(fileprefix, dict)
-	error("CSV file saving not implemented")
-end
-
-
-
 
 
 
@@ -39,10 +16,6 @@ end
 function savedict(fileprefix, dict, outFormat=:JLD)
 	if outFormat==:JLD
 		savedictJLD(fileprefix, dict)
-	elseif outFormat==:MAT
-		savedictMAT(fileprefix, dict)
-	elseif outFormat==:CSV
-		savedictCSV(fileprefix, dict)
 	else
 		error("Unknown format: $outFormat")
 	end

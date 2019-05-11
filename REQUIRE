@@ -1,8 +1,10 @@
-julia 0.6
+julia 0.7
+Pkg
 Cairo
 Fontconfig
-Gadfly 0.6 0.7
-DataFrames 0.4.2 0.11.0
+Gadfly
+DataFrames
 Colors
 JLD
 Levenshtein
+Distributed

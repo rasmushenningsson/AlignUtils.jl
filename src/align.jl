@@ -62,6 +62,7 @@ function extractcmdversion(cmd::Cmd, readErr::Bool)
 		else
 			run(pipeline(cmd, stdout=AlignUtils.openbuf(out)))
 		end
+	catch
 	end
 	str = AlignUtils.closebuf(out)
 

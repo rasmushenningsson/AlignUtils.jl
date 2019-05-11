@@ -28,7 +28,7 @@ end
 # TODO: fix using redirect_stdout/redirect_stderr ???
 
 
-type DiskBuffer
+struct DiskBuffer
 	filename::String
 	stream#::IOStream
 end

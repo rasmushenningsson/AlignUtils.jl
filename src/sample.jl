@@ -1,4 +1,4 @@
-type Sample
+mutable struct Sample
 	name::String                # Avoid utf8-characters that could make us create weird filenames causing problems later.
 	fastq::Vector{String}       # List of fastq-files belonging to this sample.
 	fastq2::Vector{String}      # Mates if paired-end, otherwise empty.

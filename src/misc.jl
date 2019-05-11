@@ -28,7 +28,7 @@ end
 
 
 # expands (pattern, filename) to (pattern, filename, filepath, localfilepath)
-function getreferenceinfo{T}(syn, ref::Tuple{T,String}, referenceFolder::String)
+function getreferenceinfo(syn, ref::Tuple{T,String}, referenceFolder::String) where {T}
     path = childpath(syn, referenceFolder, ref[2])
     ref[1], ref[2], path, expanduser(localpath(syn,path,downloadLocation=synapseCacheDir,ifcollision="overwrite.local"))
 end

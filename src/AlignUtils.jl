@@ -1,20 +1,21 @@
 module AlignUtils
 
-Pkg.installed("DISSEQT")==nothing && warn("Module DISSEQT not installed. Please refer to AlignUtils installation instructions at https://github.com/rasmushenningsson/AlignUtils.jl")
-Pkg.installed("SynapseClient")==nothing && warn("Module SynapseClient not installed. Please refer to AlignUtils installation instructions at https://github.com/rasmushenningsson/AlignUtils.jl")
-Pkg.installed("SynapseTools")==nothing && warn("Module SynapseTools not installed. Please refer to AlignUtils installation instructions at https://github.com/rasmushenningsson/AlignUtils.jl")
-Pkg.installed("BamReader")==nothing && warn("Module BamReader not installed. Please refer to AlignUtils installation instructions at https://github.com/rasmushenningsson/AlignUtils.jl")
+using Pkg
+
+haskey(Pkg.installed(),"DISSEQT") || warn("Module DISSEQT not installed. Please refer to AlignUtils installation instructions at https://github.com/rasmushenningsson/AlignUtils.jl")
+haskey(Pkg.installed(),"SynapseClient") || warn("Module SynapseClient not installed. Please refer to AlignUtils installation instructions at https://github.com/rasmushenningsson/AlignUtils.jl")
+haskey(Pkg.installed(),"SynapseTools") || warn("Module SynapseTools not installed. Please refer to AlignUtils installation instructions at https://github.com/rasmushenningsson/AlignUtils.jl")
+haskey(Pkg.installed(),"BamReader") || warn("Module BamReader not installed. Please refer to AlignUtils installation instructions at https://github.com/rasmushenningsson/AlignUtils.jl")
 
 
+using Distributed
 using DataFrames
 using Gadfly
 using Colors
 using JLD
-Pkg.installed("MAT")!=nothing && using MAT
 using Levenshtein
-using Base.Collections
-using SynapseClient
-using SynapseTools
+haskey(Pkg.installed(),"SynapseClient") && using SynapseClient
+haskey(Pkg.installed(),"SynapseTools") && using SynapseTools
 using BamReader
 using DISSEQT
 
