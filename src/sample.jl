@@ -63,8 +63,9 @@ function find_samples(syn, fastqPath::String, runName::String, namePrefix::Strin
 
 	# find files matching pattern
 	matches = map( x->match(pattern,x), fileNames )
-	mask = falses(matches)
-	map!( x->typeof(x)!=Void, mask, matches );
+	# mask = falses(matches)
+	# map!( x->x!=nothing, mask, matches );
+	mask = x.!=nothing
 
 	# log warning for non-matching files
 	for f in fileNames[.~mask]
@@ -75,10 +76,10 @@ function find_samples(syn, fastqPath::String, runName::String, namePrefix::Strin
 	# remove files that do not match pattern
 	fileNames = fileNames[mask]
 	filePaths = filePaths[mask]
-	matches = convert(Array{RegexMatch}, matches[mask])
+	matches = convert(Vector{RegexMatch}, matches[mask])
 
 	# extract the matching part of the regex as strings
-	matchingNames = Array{String}(size(matches))
+	matchingNames = Vector{String}(undef,size(matches))
 	map!( x->x.match, matchingNames, matches )
 
 	# put all files with the same match together (and add the run name to the sample name)

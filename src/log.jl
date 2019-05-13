@@ -32,7 +32,7 @@ struct DiskBuffer
 	filename::String
 	stream#::IOStream
 end
-DiskBuffer() = DiskBuffer(tempname(),Void) 
+DiskBuffer() = DiskBuffer(tempname(),nothing)
 
 openbuf(db::DiskBuffer) = (db.stream = open(db.filename, "w"); db.stream::IOStream)
 function closebuf(db::DiskBuffer)
