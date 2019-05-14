@@ -36,7 +36,7 @@ DiskBuffer() = DiskBuffer(tempname(),nothing)
 
 openbuf(db::DiskBuffer) = db.stream = open(db.filename, "w")
 function closebuf(db::DiskBuffer)::String
-	db.stream == "" && return ""
+	db.stream == nothing && return ""
 	close(db.stream)
 	str = readstring(db.filename)
 	rm(db.filename) # delete file
