@@ -53,18 +53,18 @@ trimfastq(singleFastq::Tuple{String,String}, trimmedFastq::Tuple{String,String},
 
 # Utility function for extracting version info from tools that gives the version as part of the help text (printed to stderr)
 function extractcmdversion(cmd::Cmd, readErr::Bool)
-	out = AlignUtils.DiskBuffer()
+	out = DiskBuffer()
 
 	# NB: bwa writes info to stderr
 	try
 		if readErr
-			run(pipeline(cmd, stderr=AlignUtils.openbuf(out)))
+			run(pipeline(cmd, stderr=openbuf(out)))
 		else
-			run(pipeline(cmd, stdout=AlignUtils.openbuf(out)))
+			run(pipeline(cmd, stdout=openbuf(out)))
 		end
 	catch
 	end
-	str = AlignUtils.closebuf(out)
+	str = closebuf(out)
 
 	lines = split(str,'\n')
 	m = map( x->match(r"^Version:.*",x), lines )

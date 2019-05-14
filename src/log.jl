@@ -34,8 +34,9 @@ struct DiskBuffer
 end
 DiskBuffer() = DiskBuffer(tempname(),nothing)
 
-openbuf(db::DiskBuffer) = (db.stream = open(db.filename, "w"); db.stream::IOStream)
-function closebuf(db::DiskBuffer)
+openbuf(db::DiskBuffer) = db.stream = open(db.filename, "w")
+function closebuf(db::DiskBuffer)::String
+	db.stream == "" && return ""
 	close(db.stream)
 	str = readstring(db.filename)
 	rm(db.filename) # delete file
