@@ -2,7 +2,7 @@
 const OneOrTwo{T} = Union{T,Tuple{T,T}}
 
 
-function concatfastq(fastq::Array{String,1}, singleFastq::String; log=DevNull)
+function concatfastq(fastq::Array{String,1}, singleFastq::String; log=devnull)
 	println(log, "--- Concatenating fastq from $(length(fastq)) files ---"); flush(log)
 	err = DiskBuffer()
 	err2 = DiskBuffer()
@@ -44,9 +44,9 @@ function _trimfastq(fIn, fOut, adapters::String, log)
 	flush(log)
 	ret
 end
-trimfastq(singleFastq::String, trimmedFastq::String, adapters::String; log=DevNull) =
+trimfastq(singleFastq::String, trimmedFastq::String, adapters::String; log=devnull) =
 	_trimfastq(singleFastq, ("-o", trimmedFastq), adapters, log)
-trimfastq(singleFastq::Tuple{String,String}, trimmedFastq::Tuple{String,String}, adapters::String; log=DevNull) =
+trimfastq(singleFastq::Tuple{String,String}, trimmedFastq::Tuple{String,String}, adapters::String; log=devnull) =
 	_trimfastq(singleFastq, ("-o", trimmedFastq[1], "-o", trimmedFastq[2]), adapters, log)
 
 
@@ -67,9 +67,8 @@ function extractcmdversion(cmd::Cmd, readErr::Bool)
 	str = closebuf(out)
 
 	lines = split(str,'\n')
-	m = map( x->match(r"^Version:.*",x), lines )
-	mask = falses(m)
-	map!(x->x!=nothing, mask, m)
+	m = match.(r"^Version:.*",lines)
+	mask = m.!=nothing
 	m = map(x->x.match, m[mask]) # keep matches only
 	isempty(m) && return "Unknown Version"
 	join(m, ", ") # well, shouldn't be more than one match, but it doesn't hurt to handle this case
@@ -82,7 +81,7 @@ fastqmcfversion() = extractcmdversion(`fastq-mcf -h`, false)
 
 
 # unsortedBam and ref must be local paths
-function bwaalign(trimmedFastq::OneOrTwo{String}, unsortedBam::String, ref::String; nbrThreads=4, log=DevNull, keepUnmapped=true)
+function bwaalign(trimmedFastq::OneOrTwo{String}, unsortedBam::String, ref::String; nbrThreads=4, log=devnull, keepUnmapped=true)
 	println(log, "--- Aligning with bwa mem ---"); flush(log)
 	out = DiskBuffer()
 	err = DiskBuffer()
@@ -119,7 +118,7 @@ end
 
 
 # reference must be a local path
-function bwaindex(reference::String; log=DevNull)
+function bwaindex(reference::String; log=devnull)
 	println(log, "--- Indexing with bwa index ---"); flush(log)
 	out = DiskBuffer()
 	out2 = DiskBuffer() # bwa index writes info to stderr...
@@ -140,7 +139,7 @@ end
 
 
 
-function bamsort(unsortedBam::String, sortedBam::String; nbrThreads=4, log=DevNull)
+function bamsort(unsortedBam::String, sortedBam::String; nbrThreads=4, log=devnull)
 	println(log, "--- Sorting BAM ---"); flush(log)
 	out = DiskBuffer()
 	err = DiskBuffer()
@@ -159,7 +158,7 @@ function bamsort(unsortedBam::String, sortedBam::String; nbrThreads=4, log=DevNu
 	ret
 end
 
-function bamindex(sortedBam::String; log=DevNull)
+function bamindex(sortedBam::String; log=devnull)
 	println(log, "--- Indexing BAM ---"); flush(log)
 	err = DiskBuffer()
 	
@@ -177,7 +176,7 @@ function bamindex(sortedBam::String; log=DevNull)
 end
 
 
-function removetempfiles(tempFiles::Array{String,1}; log=DevNull)
+function removetempfiles(tempFiles::Array{String,1}; log=devnull)
 	println(log, "--- Removing temporary files ---"); flush(log)
 	for t in tempFiles
 		if isfile(t)
@@ -219,7 +218,7 @@ trimmedfastqname(singleFastq::Tuple{String,String}, prefix::String, tempFiles) =
 
 function align_sample!(sample::Sample, adapters::String, 
 	                   outFolder::String, tempFolder::String; 
-	                   log::IO=DevNull, globalLog::IO=DevNull, 
+	                   log::IO=devnull, globalLog::IO=devnull, 
 	                   maxAlignIterations::Int=5, consensusMinSupport::Int=100,
 	                   consensusIndelMinSupport::Int=consensusMinSupport,
 	                   keepUnmapped::Bool=true,

@@ -1,4 +1,4 @@
-function sequencedist(x::Sequence,y::Sequence;sub::Int=1,ins::Int=10,del::Int=10)
+function sequencedist(x::Seq,y::Seq;sub::Int=1,ins::Int=10,del::Int=10)
 	levenshtein(x[2],y[2],del,ins,sub) # high penalty for indels
 end
 
@@ -11,7 +11,7 @@ end
 
 
 # elementwise comparison of strings
-function hamming(x::Sequence,y::Sequence)
+function hamming(x::Seq,y::Seq)
 	length(x[2])!=length(y[2]) && return typemax(Int)
 	s = 0
 	for (cx,cy) in zip(x[2],y[2])
@@ -25,7 +25,7 @@ function hamming(x::Reference,y::Reference) # not used atm.
 end
 
 
-function hasindels(x::Sequence,y::Sequence)
+function hasindels(x::Seq,y::Seq)
 	length(x[2]) != length(y[2]) && return true # different length, must have indels
 	sequencedist(x,y) != hamming(x,y) # if levenshtein distance is different from hamming distance, there are indels
 end
@@ -78,7 +78,7 @@ end
 
 function reference_sanity_check(samples::Vector{Sample}, 
                                 refs::Vector;
-                                log=DevNull)
+                                log=devnull)
 	r = Reference[loadfasta(f[4]) for f in refs] # loaded fastas
 	names = String[f[2] for f in refs]
 

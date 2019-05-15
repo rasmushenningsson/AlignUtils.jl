@@ -25,7 +25,7 @@ function find_samples(table, namePrefix::String="";
 	                  fastq=nothing, fastq2=nothing,
 	                  fastqLocal=nothing, fastqLocal2=nothing,
 	                  separator=';',
-	                  log=DevNull)
+	                  log=devnull)
 	if namePrefix != "" && namePrefix[1] != '_'
 		namePrefix = namePrefix * "_"
 	end
@@ -50,7 +50,7 @@ end
 
 
 # utility function that tries to identify sample names in folder were each sample might have multiple fastq files
-function find_samples(syn, fastqPath::String, runName::String, namePrefix::String="", pattern::Regex=r".+(?=_L\d+_R1_\d+.fastq.gz$)"; log=DevNull)
+function find_samples(syn, fastqPath::String, runName::String, namePrefix::String="", pattern::Regex=r".+(?=_L\d+_R1_\d+.fastq.gz$)"; log=devnull)
 	if namePrefix != "" && namePrefix[1] != '_'
 		namePrefix = namePrefix * "_"
 	end
@@ -112,7 +112,7 @@ _ismatch(f::Function, s::AbstractString) = f(s)
 
 
 # each sample name should match exactly one of the patterns ref[i][1] ∀i=1...n and will be assigned the corresponding reference name ref[i][2]
-function assign_reference!(samples::Array{Sample,1}, refs::Vector; log=DevNull)
+function assign_reference!(samples::Array{Sample,1}, refs::Vector; log=devnull)
 	patterns = [r[1] for r in refs]
 	refNames = [r[2] for r in refs]
 
